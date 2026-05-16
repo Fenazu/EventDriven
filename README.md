@@ -19,9 +19,9 @@ Ao final da atividade, espera-se que o aluno consiga:
 Cada aluno ou dupla deve entregar um arquivo curto, em PDF ou Markdown, contendo:
 
 1. nome dos integrantes;
-2. print ou trecho de log mostrando a aplicação iniciada;
+2. print ou trecho de `logs/event-driven.log` mostrando a aplicação iniciada;
 3. print ou trecho da resposta HTTP de `POST /pedidos`;
-4. print ou trecho dos logs dos três consumidores processando o mesmo pedido;
+4. print ou trecho de `logs/event-driven.log` mostrando os três consumidores processando o mesmo pedido;
 5. print ou anotação da interface RabbitMQ mostrando a exchange `pedidos.exchange` e as filas `estoque.queue`, `pagamento.queue` e `notificacao.queue`;
 6. nome do arquivo e método onde o evento `EventoPedidoCriado` é publicado;
 7. nome dos três consumidores que recebem o evento;
@@ -108,6 +108,8 @@ mvn spring-boot:run
 
 Depois, abra o arquivo `requests.http` e execute a requisição `POST /pedidos` usando a extensão REST Client do VS Code.
 
+A aplicação também grava os logs em `logs/event-driven.log`. Abra esse arquivo no VS Code para acompanhar os eventos processados sem depender apenas da linha do terminal.
+
 Também é possível testar com `curl`:
 
 ```bash
@@ -144,7 +146,7 @@ Passos:
 2. executar `mvn spring-boot:run`;
 3. confirmar que a aplicação iniciou sem erro.
 
-Entregável: print ou trecho de log mostrando a aplicação em execução.
+Entregável: print ou trecho de `logs/event-driven.log` mostrando a aplicação em execução.
 
 ### Tarefa 2 - Enviar um pedido
 
@@ -165,11 +167,12 @@ Entregável: print ou trecho da resposta HTTP com o `idPedido`.
 
 Passos:
 
-1. observar os logs da aplicação após enviar o pedido;
-2. localizar as mensagens de estoque, pagamento e notificação;
-3. verificar se os três logs usam o mesmo `idPedido`.
+1. abrir `logs/event-driven.log` no VS Code;
+2. procurar o `idPedido` retornado na Tarefa 2;
+3. localizar as mensagens de estoque, pagamento e notificação;
+4. verificar se os três logs usam o mesmo `idPedido`.
 
-Entregável: trecho dos logs mostrando `ConsumidorEstoque`, `ConsumidorPagamento` e `ConsumidorNotificacao` reagindo ao mesmo pedido.
+Entregável: trecho de `logs/event-driven.log` mostrando `ConsumidorEstoque`, `ConsumidorPagamento` e `ConsumidorNotificacao` reagindo ao mesmo pedido.
 
 ### Tarefa 4 - Verificar o RabbitMQ
 
@@ -209,11 +212,11 @@ Passos:
 2. alterar o método `processar` para imprimir um log diferente quando `evento.quantidade() > 5`;
 3. reiniciar a aplicação se necessário;
 4. enviar um pedido com `quantidade: 6`;
-5. verificar o novo log no terminal.
+5. verificar o novo log em `logs/event-driven.log`.
 
 Exemplo de comportamento esperado: para quantidade maior que 5, o consumidor deve registrar que a reserva de estoque foi rejeitada ou precisa de análise manual.
 
-Entregável: trecho do código alterado e trecho do log gerado com `quantidade > 5`.
+Entregável: trecho do código alterado e trecho de `logs/event-driven.log` gerado com `quantidade > 5`.
 
 ### Tarefa 7 - Responder à pergunta final
 
