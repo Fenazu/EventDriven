@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Get-ChildItem \"d:\\\\engsoft\\\\event\\\\EventDriven\\\\src\\\\main\\\\java\" -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object { $_.FullName })"
-    ]
-  }
-}
