@@ -1,11 +1,12 @@
 package br.edu.eventdriven.notificacao;
 
-import br.edu.eventdriven.configuracao.ConfiguracaoRabbitMQ;
-import br.edu.eventdriven.pedido.EventoPedidoCriado;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
+import br.edu.eventdriven.configuracao.ConfiguracaoRabbitMQ;
+import br.edu.eventdriven.pedido.EventoPedidoCriado;
 
 @Component
 public class ConsumidorNotificacao {
@@ -17,6 +18,5 @@ public class ConsumidorNotificacao {
         log.info("Notificação: enviando confirmação do pedido {} para o cliente {}",
                 evento.idPedido(), evento.idCliente());
 
-        // TODO didático: criar um novo consumidor para outro canal de notificação.
     }
 }

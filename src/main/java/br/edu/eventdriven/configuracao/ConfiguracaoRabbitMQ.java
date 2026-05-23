@@ -17,13 +17,27 @@ import org.springframework.context.annotation.Configuration;
 public class ConfiguracaoRabbitMQ {
 
     public static final String EXCHANGE_PEDIDOS = "pedidos.exchange";
+    public static final String EXCHANGE_PAGAMENTOS = "pagamentos.exchange";
+    public static final String EXCHANGE_PEDIDOS_CANCELADOS = "pedidos.cancelados.exchange";
     public static final String FILA_ESTOQUE = "estoque.queue";
     public static final String FILA_PAGAMENTO = "pagamento.queue";
     public static final String FILA_NOTIFICACAO = "notificacao.queue";
+    public static final String FILA_AUDITORIA = "auditoria.queue";
+    public static final String FILA_NOTIFICACAO_EMAIL = "notificacao.email.queue";
 
     @Bean
     FanoutExchange exchangePedidos() {
         return new FanoutExchange(EXCHANGE_PEDIDOS);
+    }
+
+    @Bean
+    FanoutExchange exchangePagamentos() {
+        return new FanoutExchange(EXCHANGE_PAGAMENTOS);
+    }
+
+    @Bean
+    FanoutExchange exchangePedidosCancelados() {
+        return new FanoutExchange(EXCHANGE_PEDIDOS_CANCELADOS);
     }
 
     @Bean
@@ -42,6 +56,16 @@ public class ConfiguracaoRabbitMQ {
     }
 
     @Bean
+    Queue filaAuditoria() {
+        return new Queue(FILA_AUDITORIA, true);
+    }
+
+    @Bean
+    Queue filaNotificacaoEmail() {
+        return new Queue(FILA_NOTIFICACAO_EMAIL, true);
+    }
+
+    @Bean
     Binding vinculoEstoque(Queue filaEstoque, FanoutExchange exchangePedidos) {
         return BindingBuilder.bind(filaEstoque).to(exchangePedidos);
     }
@@ -54,6 +78,16 @@ public class ConfiguracaoRabbitMQ {
     @Bean
     Binding vinculoNotificacao(Queue filaNotificacao, FanoutExchange exchangePedidos) {
         return BindingBuilder.bind(filaNotificacao).to(exchangePedidos);
+    }
+
+    @Bean
+    Binding vinculoAuditoria(Queue filaAuditoria, FanoutExchange exchangePedidos) {
+        return BindingBuilder.bind(filaAuditoria).to(exchangePedidos);
+    }
+
+    @Bean
+    Binding vinculoNotificacaoEmail(Queue filaNotificacaoEmail, FanoutExchange exchangePedidos) {
+        return BindingBuilder.bind(filaNotificacaoEmail).to(exchangePedidos);
     }
 
     @Bean
